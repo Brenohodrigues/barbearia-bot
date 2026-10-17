@@ -1,0 +1,36 @@
+services:
+  db:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: barbearia
+      POSTGRES_PASSWORD: barbearia
+      POSTGRES_DB: barbearia
+    volumes:
+      - barbearia_pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U barbearia"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    ports:
+      - "5432:5432"
+
+  api:
+    build: .
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    env_file:
+      - .env
+    environment:
+      # Sobrepõe DATABASE_URL do .env para apontar para o container "db"
+      DATABASE_URL: postgresql+psycopg://barbearia:barbearia@db:5432/barbearia
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./frontend:/app/frontend:ro
+
+volumes:
+  barbearia_pgdata:

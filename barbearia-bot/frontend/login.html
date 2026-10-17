@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Login - Painel da Barbearia</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="login-screen">
+    <div class="login-card">
+      <h1>💈 Painel da Barbearia</h1>
+      <p class="subtitle">Entre com seu e-mail e senha de administrador.</p>
+      <form id="login-form">
+        <label for="email">E-mail</label>
+        <input id="email" type="email" required autocomplete="username">
+        <label for="password">Senha</label>
+        <input id="password" type="password" required autocomplete="current-password">
+        <div id="error" class="error-msg hidden"></div>
+        <button class="btn" type="submit" style="width:100%">Entrar</button>
+      </form>
+    </div>
+  </div>
+
+  <script src="js/api.js"></script>
+  <script>
+    document.getElementById("login-form").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const errorEl = document.getElementById("error");
+      errorEl.classList.add("hidden");
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+      try {
+        const data = await Api.post("/auth/login", { email, password });
+        Api.setToken(data.access_token);
+        window.location.href = "/painel/index.html";
+      } catch (err) {
+        errorEl.textContent = err.message;
+        errorEl.classList.remove("hidden");
+      }
+    });
+
+    if (Api.getToken()) {
+      window.location.href = "/painel/index.html";
+    }
+  </script>
+</body>
+</html>

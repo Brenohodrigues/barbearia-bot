@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Painel da Barbearia</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <h2>💈 Barbearia</h2>
+      <button class="nav-item" data-view="dashboard">Dashboard</button>
+      <button class="nav-item" data-view="agenda">Agenda</button>
+      <button class="nav-item" data-view="clientes">Clientes</button>
+      <button class="nav-item" data-view="servicos">Serviços</button>
+      <button class="nav-item" data-view="barbeiros">Barbeiros</button>
+      <div class="sidebar-footer">
+        <button class="nav-item" id="logout-btn">Sair</button>
+      </div>
+    </aside>
+    <main class="main">
+      <div class="topbar">
+        <h1 id="view-title">Dashboard</h1>
+      </div>
+      <div id="view-content"></div>
+    </main>
+  </div>
+
+  <script src="js/api.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
